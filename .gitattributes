@@ -1,4 +1,6 @@
 .aws/credentials filter=git-crypt diff=git-crypt
 .ssh/** filter=git-crypt diff=git-crypt
 .openvpn/**/* filter=git-crypt diff=git-crypt
+.pypirc filter=git-crypt diff=git-crypt
+
 
