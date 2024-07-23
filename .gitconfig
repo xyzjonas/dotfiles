@@ -1,0 +1,8 @@
+[core]
+	editor = vim
+  commentChar = ";"
+
+[alias]
+  fixup = commit -a --fixup=HEAD
+  b = branch
+  a = commit --amend

@@ -1,0 +1,5 @@
+export SMASH_BACKUP_KEY=M9Yg7sKkG9bzCL7F
+
+function decrypt_backup() {
+  gpg --output smash.dump --decrypt "$1"
+}

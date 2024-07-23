@@ -1,0 +1,7 @@
+[repositories]
+[repositories.packagr]
+url = "https://foo.bar.baz/pypi"
+
+[virtualenvs]
+create = true
+path = "/home/jonasbrauer/.virtualenvs"
