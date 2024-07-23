@@ -2,5 +2,7 @@
 .ssh/** filter=git-crypt diff=git-crypt
 .openvpn/**/* filter=git-crypt diff=git-crypt
 .pypirc filter=git-crypt diff=git-crypt
-
+.config/suse-devenv/db/smash/decrypt.sh filter=git-crypt diff=git-crypt
+.config/suse-devenv/db/smash/dump.sh filter=git-crypt diff=git-crypt
+.config/suse-devenv/db/smelt/dump.sh filter=git-crypt diff=git-crypt
 

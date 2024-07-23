@@ -1,26 +1,28 @@
-Install internal SUSE CA
+# Install internal SUSE CA
 
-1) set up repo from here: http://download.suse.de/browse/ibs/SLL:/CA/el8/
+1. set up repo from here: http://download.suse.de/browse/ibs/SLL:/CA/el8/
 
-2) install 'ca-certificates-suse'
+2. install 'ca-certificates-suse'
 
-3) rpm -qa | grep cert
+3. rpm -qa | grep cert
    rpm -qi ca-certificates-suse-xyz  # show info
    rpm -ql ca-certificates-suse-xyz  # show installed files
 
-4) copy the installed .pem to '/etc/pki/ca-trust/source/anchors/'
+4. copy the installed .pem to '/etc/pki/ca-trust/source/anchors/'
 
-5) execute 'update-ca-trust'
+5. execute 'update-ca-trust'
 
-6) for mozilla that should be ok, for other browsers:
+6. for mozilla that should be ok, for other browsers:
 
-7) Import the .pem into the respective browser trust stores, as in
+7. Import the .pem into the respective browser trust stores, as in
    https://thomas-leister.de/en/how-to-import-ca-root-certificate/
   
    Edit this script with the path to the installed .pem cert in the system ca-trust,
    e.g.: /usr/share/pki/ca-trust-source/anchors/SUSE_Trust_Root.crt.pem
 
-"""
+
+
+``` bash
 #!/bin/bash
 
 ### Script installs root.cert.pem to certificate trust store of applications using NSS
@@ -61,7 +63,7 @@ do
     certutil -A -n "${certname}" -t "TCu,Cu,Tu" -i ${certfile} -d sql:${certdir}
 done
 
-"""
+```
 
-8) execute the script and voila
+8. execute the script and voila
 

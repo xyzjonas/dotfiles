@@ -1,0 +1,97 @@
+services:
+    # gpg --output smash.dump --decrypt <file> # pswd: M9Yg7sKkG9bzCL7F
+    db-smash:
+      image: postgres
+      restart: always
+      environment:
+        POSTGRES_USER: smash
+        POSTGRES_PASSWORD: smash
+        POSTGRES_DB: smash
+      volumes:
+        - smash-db:/var/lib/postgresql/data
+      networks:
+      - internal
+      ports:
+      - 5432:5432
+
+    db-smelt:
+      image: postgres
+      restart: always
+      environment:
+        POSTGRES_USER: smelt
+        POSTGRES_PASSWORD: smelt
+        POSTGRES_DB: smelt
+      volumes:
+        - smelt-db:/var/lib/postgresql/data
+      networks:
+      - internal
+      ports:
+      - 5431:5432
+
+    db-aimaas:
+      image: postgres
+      restart: always
+      environment:
+        POSTGRES_USER: aimaas
+        POSTGRES_PASSWORD: aimaas
+        POSTGRES_DB: aimaas
+      volumes:
+        - aimaas-db:/var/lib/postgresql/data
+      networks:
+      - internal
+      ports:
+      - 5430:5432
+
+    openldap:
+      image: osixia/openldap:1.5.0
+      restart: always
+      environment:
+        # bind dn: cn=admin,dc=suse,dc=de
+        # LDAP_ADMIN_USERNAME: admin
+        # LDAP_ADMIN_PASSWORD: admin
+        LDAP_ORGANISATION: "suse"
+        LDAP_DOMAIN: "suse.de"
+        LDAP_ADMIN_PASSWORD: "admin"
+        LDAP_TLS: "false"
+        # LDAP_SEED_INTERNAL_SCHEMA_PATH: /ldifs
+        # LDAP_SEED_INTERNAL_LDIF_PATH: /ldifs
+      command: --copy-service
+      # command: --loglevel=debug
+      volumes:
+        - ./ldifs:/container/service/slapd/assets/config/bootstrap/ldif/custom
+        - ./99-schema.schema:/container/service/slapd/assets/config/bootstrap/schema/99-schema.schema
+        # - ./ldif:/ldifs
+      networks:
+      - internal
+      ports:
+      - 1636:636
+      - 1389:389
+
+    ldap-admin:
+      image: osixia/phpldapadmin:0.9.0
+      # https://localhost:6443
+      ports:
+      - 6443:443
+      networks:
+      - internal
+      environment:
+        PHPLDAPADMIN_LDAP_HOSTS: openldap
+
+    mq:
+      image: rabbitmq:3-management
+      networks:
+      - internal
+      ports:
+      - 5672:5672
+      - 15672:15672
+
+
+networks:
+  internal:
+    driver: bridge
+
+volumes:
+  smelt-db:
+  smash-db:
+  aimaas-db:
+  
