@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+
+last=0
+
+while true; do
+  echo -n "."
+  ping seznam.cz -c 2 -q -W 1 > /dev/null
+  res=$?
+  
+  test $res -eq 0 -a $last -eq 1 \
+  && notify-send -i /usr/share/icons/Adwaita/symbolic/status/network-wireless-signal-excellent-symbolic.svg Yay! "Wi-Fi back online" \
+  && last=0
+
+  test $res -gt 128 && break
+  test $res -gt 0 -a $last -eq 0 && notify-send -i /usr/share/icons/Adwaita/symbolic/status/network-wireless-offline-symbolic.svg "Scheisse!" "Wireless network dropped... :(" && last=1
+  sleep 0.5
+done
+
