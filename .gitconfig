@@ -4,5 +4,9 @@
 
 [alias]
   fixup = commit -a --fixup=HEAD
+  s = status
   b = branch
   a = commit --amend
+  l = log --pretty=oneline --abbrev-commit
+  q = checkout -
+  ch = ! git checkout $(git branch | fzf)
